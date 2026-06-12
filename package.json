@@ -1,0 +1,24 @@
+{
+  "name": "taskflow_ci_cd",
+  "version": "1.0.0",
+  "description": "CI/CD FLOW PURPOSE & BENIFITS",
+  "homepage": "https://github.com/jomi087/Taskflow_CI-CD#readme",
+  "bugs": {
+    "url": "https://github.com/jomi087/Taskflow_CI-CD/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jomi087/Taskflow_CI-CD.git"
+  },
+  "license": "ISC",
+  "author": "jomi",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
