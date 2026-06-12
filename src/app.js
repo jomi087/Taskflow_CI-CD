@@ -1,7 +1,7 @@
 import express from 'express'
 export const app = express()
 
-const tasks = []s
+const tasks = []
 
 app.use(express.json())
 
