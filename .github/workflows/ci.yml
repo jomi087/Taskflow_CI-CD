@@ -1,0 +1,55 @@
+name: CI Pipeline
+
+# when to do is mentioned in "on"
+on:
+  # on push request related to main branch run the test
+  push:
+    branches:
+      - main
+
+  # on pull request related to main branch run the test
+  pull_request:
+    branches:
+      - main
+      #Run when PR is opened
+      #Run when PR is updated
+
+# what all things to do is menionted in "jobs"
+jobs:
+  # job 1 - test
+  test:
+    # GitHub creates a temporary Linux machine.
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Downloads your repository in linux machine.
+
+        # install dependcies to run my project (node , library and its depedencies)
+      - name: Setup Node
+        uses: actions/setup-node@v4 # install node
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm ci # install Dependencies, similar to npm install but npm ci more sticter than npm install (exmple package.json and packege-lock.json out of sync)
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check Prettier Formatting
+        run: npm run format:check
+
+      - name: Run Tests
+        run: npm test # run test script(jest)
+    # # for better and for easy use docker which will make it more easy to write the steps
+
+# if mongodb then like this also were needed then like this
+
+# - name: Install MongoDB
+#   run: |
+#     sudo apt update
+#     sudo apt install mongodb
+
+# - name: Start MongoDB
+#   run: sudo systemctl start mongodb
