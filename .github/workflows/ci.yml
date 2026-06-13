@@ -32,7 +32,7 @@ jobs:
           node-version: 22
 
       - name: Install Dependencies
-        run: npm ci  # install Dependencies, similar to npm install but npm ci more sticter than npm install (exmple package.json and packege-lock.json out of sync)
+        run: npm ci # install Dependencies, similar to npm install but npm ci more sticter than npm install (exmple package.json and packege-lock.json out of sync)
 
       - name: Run ESLint
         run: npm run lint
