@@ -279,26 +279,103 @@ Installs Node.js.
 
 ---
 
-## npm install
+##  Install Dependencies 
+
+### npm install vs npm ci
 
 ```yaml
-run: npm install / npm ci
-why ci is prefferd
+run: npm ci
 ```
 
 Installs project dependencies.
 
+### Why is `npm ci` preferred in CI pipelines?
+
+`npm ci` is designed specifically for automated environments such as GitHub Actions.
+
+Advantages:
+
+- Faster than `npm install`
+- Uses the exact versions from `package-lock.json`
+- Produces reproducible builds
+- Fails if `package.json` and `package-lock.json` are out of sync
+
+Example:
+
+```text
+package.json      → express 5.0.0
+package-lock.json → express 4.21.0
+```
+
+`npm install` may try to update the lock file. (from express 4.21.0 to express 5.0.0)
+
+`npm ci` immediately fails and alerts developers that the files are inconsistent.
+
+Therefore most CI pipelines use:
+
+```yaml
+run: npm ci
+```
+
 ---
 
-## npm test
+## Validation Steps
 
 ```yaml
 run: npm run lint
-run: npm run format:check (reminder its format : check not form y )
+run: npm run format:check
 run: npm test
 ```
 
-Runs Jest tests.
+### npm run lint
+
+Runs ESLint to detect code-quality issues and potential bugs.
+
+### npm run format:check
+
+Usually configured as:
+
+```json
+"format:check": "prettier . --check"
+```
+
+`--check` verifies whether files follow Prettier formatting rules.
+
+It does **not** modify files.
+
+Example:
+
+```text
+Bad Formatting
+      ↓
+CI Fails
+      ↓
+Developer Runs:
+prettier . --write
+      ↓
+Push Again
+```
+
+Why not use `--write` inside CI?
+
+Because `prettier . --write` modifies files.
+
+If CI automatically modifies files on the GitHub Actions runner, those changes exist only on that temporary machine and not in the developer's local repository.
+
+This can cause local and CI environments to become inconsistent.
+
+Instead, CI should only verify formatting using:
+```bash
+prettier . --check
+```
+If formatting issues are found, the workflow fails and the developer fixes them locally using:
+```bash
+prettier . --write
+```
+
+### npm test
+
+Runs Jest test suites and verifies application behavior.
 
 ---
 
@@ -407,6 +484,9 @@ We must ensure new changes don't break existing features.
 # 10. What is CD?
 
 CD automates deployment.
+> Example deployment workflow stored in `.github/workflows/cd.yml`.
+>
+> In our project it may exist only locally and may not be committed to GitHub, (still under development).
 
 Instead of manually:
 
