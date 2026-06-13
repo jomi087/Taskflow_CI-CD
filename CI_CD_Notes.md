@@ -279,7 +279,7 @@ Installs Node.js.
 
 ---
 
-##  Install Dependencies 
+## Install Dependencies
 
 ### npm install vs npm ci
 
@@ -365,10 +365,13 @@ If CI automatically modifies files on the GitHub Actions runner, those changes e
 This can cause local and CI environments to become inconsistent.
 
 Instead, CI should only verify formatting using:
+
 ```bash
 prettier . --check
 ```
+
 If formatting issues are found, the workflow fails and the developer fixes them locally using:
+
 ```bash
 prettier . --write
 ```
@@ -484,6 +487,7 @@ We must ensure new changes don't break existing features.
 # 10. What is CD?
 
 CD automates deployment.
+
 > Example deployment workflow stored in `.github/workflows/cd.yml`.
 >
 > In our project it may exist only locally and may not be committed to GitHub, (still under development).

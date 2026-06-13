@@ -1,6 +1,8 @@
 import express from 'express';
 export const app = express();
 
+const tasks = [];
+
 app.use(express.json());
 
 app.get('/health', (req, res) => {
