@@ -9,3 +9,20 @@ app.get('/health', (req, res) => {
     msg: 'working perfectly',
   });
 });
+
+app.post('/tasks', (req, res) => {
+  //you can test this api with postman but how many time (CI - answer jst automate it)
+  const { title } = req.body;
+
+  const task = {
+    id: tasks.length + 1,
+    title,
+  };
+
+  tasks.push(task);
+
+  res.status(201).json({
+    success: true,
+    task,
+  });
+});
